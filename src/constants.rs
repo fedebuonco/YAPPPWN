@@ -4,6 +4,7 @@ pub const PPPOE_TAG_ACOOKIE: u16 = 0x0104;
 
 pub const ETHERTYPE_PPPOEDISC: u16 = 0x8863;
 pub const ETHERTYPE_PPPOE: u16 = 0x8864;
+pub const PPPOE_CODE_PADI: u8 = 0x09;
 
 pub const PCPP_PPP: u8 = 33;
 
