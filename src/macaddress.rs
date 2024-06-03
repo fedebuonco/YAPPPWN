@@ -1,7 +1,7 @@
 use std::fmt;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct MacAddress64([u8; 8]);
+pub struct MacAddress64(pub [u8; 8]);
 
 impl MacAddress64 {
     pub fn new(bytes: [u8; 8]) -> Self {
