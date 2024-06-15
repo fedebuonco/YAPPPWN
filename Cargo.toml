@@ -1,5 +1,5 @@
 [package]
-name = "yappwn"
+name = "yapppwn"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,3 +7,15 @@ edition = "2021"
 
 [dependencies]
 pcap = "2.0.0"
+pyo3 = { version = "0.21.2", features = ["extension-module"] }
+
+
+[lib]
+name = "py_yapppwn"
+# "cdylib" is necessary to produce a shared library for Python to import from.
+crate-type = ["cdylib"]
+path = "src/py_yapppwn.rs"
+
+[[bin]]
+name = "yapppwn"
+path = "src/main.rs"
