@@ -11,10 +11,10 @@ fn main() {
     let cap = Device::lookup().unwrap().unwrap().open().unwrap();
 
     let mut exploit = Exploit {
-        exploit_target_mac: MacAddress64::from_u64(0),
+        target_mac: MacAddress64::from_u64(0),
         pppoe_softc: 0,
-        cap_device: cap,
+        source_mac: MacAddress64([41, 41, 41, 41, 41, 41, 41, 41]),
     };
 
-    exploit.ppp_negotiation();
+    exploit.ppp_negotiation(cap);
 }
