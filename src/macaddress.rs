@@ -11,6 +11,13 @@ impl MacAddress64 {
     pub fn from_u64(value: u64) -> Self {
         MacAddress64(value.to_be_bytes())
     }
+
+    // Method to truncate to [u8; 6]
+    pub fn to_mac_address6(&self) -> [u8; 6] {
+        let mut truncated = [0u8; 6];
+        truncated.copy_from_slice(&self.0[..6]);
+        truncated
+    }
 }
 
 // Implement display formatting for MacAddress64
