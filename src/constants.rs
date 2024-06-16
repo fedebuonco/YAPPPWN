@@ -12,6 +12,7 @@ pub const PPPOE_TAG_HEADER_LEN: usize = 4;
 pub const PPPOE_SOFTC_SC_DEST: u64 = 0x24;
 
 pub const PPPOE_TAG_HOST_UNIQ: u16 = 0x0103;
+pub const PPPOE_TAG_ACOOKIE: u16 = 0x0104;
 
 // Define constants used in the code
 pub const ZERO: u64 = 0;
