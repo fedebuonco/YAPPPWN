@@ -1,8 +1,20 @@
 mod constants;
 mod exploit;
-use pcap::{Capture, Device};
+use pcap::{Active, Capture, Device};
 
 use crate::exploit::Exploit;
+
+fn run_exploit(active_capture: Capture<Active>) {
+    // Exploit
+    let mut exploit = Exploit {
+        target_mac: [0, 0, 0, 0, 0, 0],
+        pppoe_softc: 0,
+        source_mac: [0, 0, 0, 0, 0, 0],
+        host_uniq: [0, 0, 0, 0, 0, 0, 0, 0],
+    };
+    // PPP negotiation
+    exploit.ppp_negotiation(active_capture);
+}
 
 fn main() {
     // Cap device
@@ -17,12 +29,5 @@ fn main() {
 
     let open_cap = cap.timeout(10000).open().unwrap();
 
-    let mut exploit = Exploit {
-        target_mac: [0, 0, 0, 0, 0, 0],
-        pppoe_softc: 0,
-        source_mac: [0, 0, 0, 0, 0, 0],
-        host_uniq: [0, 0, 0, 0, 0, 0, 0, 0],
-    };
-
-    exploit.ppp_negotiation(open_cap);
+    run_exploit(open_cap)
 }
