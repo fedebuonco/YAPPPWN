@@ -1,8 +1,6 @@
 mod constants;
 mod exploit;
-mod macaddress;
 use crate::exploit::build_fake_ifnet;
-use macaddress::MacAddress64;
 use pcap::Device;
 
 use pyo3::prelude::*;

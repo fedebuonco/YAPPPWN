@@ -1,7 +1,5 @@
 mod constants;
 mod exploit;
-mod macaddress;
-use macaddress::MacAddress64;
 use pcap::{Capture, Device};
 
 use crate::exploit::Exploit;
@@ -20,9 +18,9 @@ fn main() {
     let open_cap = cap.timeout(10000).open().unwrap();
 
     let mut exploit = Exploit {
-        target_mac: MacAddress64::from_u64(0),
+        target_mac: [0, 0, 0, 0, 0, 0],
         pppoe_softc: 0,
-        source_mac: MacAddress64([41, 41, 41, 41, 41, 41, 41, 41]),
+        source_mac: [0, 0, 0, 0, 0, 0],
         host_uniq: [0, 0, 0, 0, 0, 0, 0, 0],
     };
 
