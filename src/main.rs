@@ -7,7 +7,7 @@ use crate::exploit::Exploit;
 
 fn run_exploit() {
     // Find interface
-    let interface_name = "enp4s0";
+    let interface_name = "wlp6s0";
     let interface_names_match = |iface: &NetworkInterface| iface.name == interface_name;
 
     // Find the network interface with the provided name
