@@ -1,10 +1,13 @@
 // PPPoE constants
 
 pub const ETHERTYPE_PPPOEDISC: u16 = 0x8863;
+pub const ETHERTYPE_PPPOESESS: u16 = 0x8864;
+pub const ETHERTYPE_LCP: u16 = 0xc021;
 pub const PPPOE_CODE_PADI: u8 = 0x09;
 pub const PPPOE_CODE_PADR: u8 = 0x19;
 pub const PPPOE_CODE_PADO: u8 = 0x07;
 pub const PPPOE_CODE_PADS: u8 = 0x65;
+pub const PPPOE_CODE_LCP_ECHO_REQ: u8 = 0x09;
 pub const PPPOE_SOFTC_SC_AC_COOKIE: u8 = 0x40;
 pub const PPPOE_SESSION_ID: u16 = 0xffff;
 pub const ETH_HEADER_LEN: usize = 14;
