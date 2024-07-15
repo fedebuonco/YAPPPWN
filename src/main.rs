@@ -5,9 +5,17 @@ use pnet::datalink::{self, NetworkInterface};
 
 use crate::exploit::Exploit;
 
-fn run_exploit() {
+use clap::Parser;
+
+#[derive(Parser, Debug)]
+#[command(about, long_about = None)]
+struct Args {
+    #[arg(short, long)]
+    interface: String,
+}
+
+fn run_exploit(interface_name: String) {
     // Find interface
-    let interface_name = "wlp6s0";
     let interface_names_match = |iface: &NetworkInterface| iface.name == interface_name;
 
     // Find the network interface with the provided name
@@ -18,16 +26,21 @@ fn run_exploit() {
         .next()
         .unwrap();
     // Exploit
-    let mut exploit = Exploit {
+    let mut expl = Exploit {
         target_mac: [0, 0, 0, 0, 0, 0],
         pppoe_softc: 0,
         source_mac: [0, 0, 0, 0, 0, 0],
         host_uniq: [0, 0, 0, 0, 0, 0, 0, 0],
     };
+    // LCP
+    let mut handler = exploit::LcpEchoHandler::new(interface.clone());
+    handler.start();
     // PPP negotiation
-    exploit.ppp_negotiation(interface);
+    expl.ppp_negotiation(interface);
+    handler.stop();
 }
 
 fn main() {
-    run_exploit()
+    let args = Args::parse();
+    run_exploit(args.interface)
 }

@@ -6,6 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+clap = { version = "4.5.9", features = ["derive"] }
 pcap = "2.0.0"
 pnet = "0.35.0"
 pyo3 = { version = "0.21.2", features = ["extension-module"] }
