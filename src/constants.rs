@@ -8,7 +8,6 @@ pub const PPPOE_CODE_PADR: u8 = 0x19;
 pub const PPPOE_CODE_PADO: u8 = 0x07;
 pub const PPPOE_CODE_PADS: u8 = 0x65;
 pub const PPPOE_CODE_LCP_ECHO_REQ: u8 = 0x09;
-pub const PPPOE_SOFTC_SC_AC_COOKIE: u8 = 0x40;
 pub const PPPOE_SESSION_ID: u16 = 0xffff;
 pub const ETH_HEADER_LEN: usize = 14;
 pub const ETH_SOURCE_MAC: usize = 6;

@@ -1,6 +1,5 @@
 mod constants;
 mod exploit;
-use pcap::{Active, Capture, Device};
 use pnet::datalink::{self, NetworkInterface};
 
 use crate::exploit::Exploit;
