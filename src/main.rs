@@ -32,10 +32,11 @@ fn run_exploit(interface_name: String) {
         host_uniq: [0, 0, 0, 0, 0, 0, 0, 0],
     };
     // LCP
-    let mut handler = exploit::LcpEchoHandler::new(interface.clone());
+    let mut handler = exploit::LcpEchoHandler::new(&interface);
     handler.start();
     // PPP negotiation
-    expl.ppp_negotiation(interface);
+    expl.ppp_negotiation(&interface);
+    expl.lcp_negotiation(&interface);
     handler.stop();
 }
 
