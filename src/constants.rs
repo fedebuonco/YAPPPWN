@@ -24,12 +24,14 @@ pub const LCP_CONF_REQ: u8 = 1;
 pub const LCP_CONF_ACK: u8 = 2;
 pub const LCP_CONF_NAK: u8 = 3;
 pub const LCP_CONF_REJ: u8 = 4;
+
 pub const IP_ADDRESS_TYPE: u8 = 3;
 pub const IPCP_CONF_REQ: u8 = 1;
 pub const IPCP_CONF_ACK: u8 = 2;
 pub const IPCP_CONF_NAK: u8 = 3;
 pub const SOURCE_IPV4: [u8; 4] = [0x29, 0x29, 0x29, 0x29];
 pub const TARGET_IPV4: [u8; 4] = [0x2A, 0x2A, 0x2A, 0x2A];
+
 
 pub const PPPOE_TAG_HOST_UNIQ: u16 = 0x0103;
 pub const PPPOE_TAG_ACOOKIE: u16 = 0x0104;
