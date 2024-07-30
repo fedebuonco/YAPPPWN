@@ -35,10 +35,14 @@ fn run_exploit(interface_name: String) {
     let mut handler = exploit::LcpEchoHandler::new(&interface);
     handler.start();
     // Initial negotiations
+    println!("[*] Starting Negotiations ...");
     expl.ppp_negotiation(&interface);
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
+    println!("[*] Initial Negotiations Done...");
+
     handler.stop();
+    println!("[*] DONE!");
 }
 
 fn main() {
