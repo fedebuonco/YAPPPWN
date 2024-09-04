@@ -1,2 +1,3 @@
 /target
 .venv
+tarpaulin-report.html
