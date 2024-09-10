@@ -1,3 +1,4 @@
 /target
 .venv
 tarpaulin-report.html
+lcov.info
