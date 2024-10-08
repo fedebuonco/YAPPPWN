@@ -2,3 +2,6 @@
 .venv
 tarpaulin-report.html
 lcov.info
+
+# Ignore all files in test_data/ folder except for .pcap files
+test_data/*.bin
