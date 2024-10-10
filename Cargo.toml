@@ -11,8 +11,6 @@ hwaddr = "0.1.7"
 packet = "0.1.4"
 pcap = "2.0.0"
 pnet = "0.35.0"
-pyo3 = { version = "0.21.2", features = ["extension-module"] }
-
 
 [lib]
 name = "py_yapppwn"
