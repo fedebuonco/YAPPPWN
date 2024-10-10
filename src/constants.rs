@@ -1,7 +1,4 @@
 // PPPoE constants
-
-use std::f64::consts;
-
 pub const ETHERTYPE_PPPOEDISC: u16 = 0x8863;
 pub const ETHERTYPE_PPPOESESS: u16 = 0x8864;
 pub const ETHERTYPE_IPV6: u16 = 0x86dd;
@@ -21,13 +18,9 @@ pub const PPPOE_TAG_HEADER_LEN: usize = 4;
 pub const PPPOE_SOFTC_SC_DEST: u64 = 0x24;
 pub const SPRAY_NUM: u32 = 0x1000;
 pub const LCP_ID: u8 = 0x41;
-pub const IPCP_ID: u8 = 0x2;
-pub const FAKE_IP_ADDR: [u8; 4] = [42, 42, 42, 42];
 pub const FAKE_PRIMARY_DNS_SERVER: [u8; 4] = [0, 0, 0, 0];
 pub const LCP_CONF_REQ: u8 = 1;
 pub const LCP_CONF_ACK: u8 = 2;
-pub const LCP_CONF_NAK: u8 = 3;
-pub const LCP_CONF_REJ: u8 = 4;
 pub const HOLE_START: u32 = 0x400;
 pub const HOLE_SPACE: u32 = 0x10;
 
