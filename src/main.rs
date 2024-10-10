@@ -20,9 +20,7 @@ fn run_exploit(interface_name: String) {
     // Find the network interface with the provided name
     let interfaces = datalink::interfaces();
     let interface = interfaces
-        .into_iter()
-        .filter(interface_names_match)
-        .next()
+        .into_iter().find(interface_names_match)
         .unwrap();
     // Exploit
     let mut expl = Exploit {
