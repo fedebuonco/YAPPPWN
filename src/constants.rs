@@ -17,6 +17,7 @@ pub const PPPOE_HEADER_LEN: usize = 6;
 pub const PPPOE_TAG_HEADER_LEN: usize = 4;
 pub const PPPOE_SOFTC_SC_DEST: u64 = 0x24;
 pub const SPRAY_NUM: u32 = 0x1000;
+pub const PIN_NUM: u32 = 0x1000;
 pub const LCP_ID: u8 = 0x41;
 pub const FAKE_PRIMARY_DNS_SERVER: [u8; 4] = [0, 0, 0, 0];
 pub const LCP_CONF_REQ: u8 = 1;
