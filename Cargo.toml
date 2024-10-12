@@ -3,20 +3,12 @@ name = "yapppwn"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 clap = { version = "4.5.9", features = ["derive"] }
 hwaddr = "0.1.7"
 packet = "0.1.4"
 pcap = "2.0.0"
 pnet = "0.35.0"
-
-[lib]
-name = "py_yapppwn"
-# "cdylib" is necessary to produce a shared library for Python to import from.
-crate-type = ["cdylib"]
-path = "src/py_yapppwn.rs"
 
 [[bin]]
 name = "yapppwn"
