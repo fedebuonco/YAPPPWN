@@ -1,17 +1,10 @@
 mod constants;
 mod exploit;
+mod parser;
+
+use exploit::Exploit;
+use parser::{get_args, Args};
 use pnet::datalink::{self, NetworkInterface};
-
-use crate::exploit::Exploit;
-
-use clap::Parser;
-
-#[derive(Parser, Debug)]
-#[command(about, long_about = None)]
-struct Args {
-    #[arg(short, long)]
-    interface: String,
-}
 
 fn run_exploit(interface_name: String) {
     // Find interface
@@ -57,6 +50,6 @@ fn run_exploit(interface_name: String) {
 }
 
 fn main() {
-    let args = Args::parse();
+    let args: Args = get_args();
     run_exploit(args.interface)
 }
