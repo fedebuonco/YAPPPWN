@@ -22,6 +22,8 @@ pub const LCP_ID: u8 = 0x41;
 pub const FAKE_PRIMARY_DNS_SERVER: [u8; 4] = [0, 0, 0, 0];
 pub const LCP_CONF_REQ: u8 = 1;
 pub const LCP_CONF_ACK: u8 = 2;
+pub const LCP_CONF_REJECT: u8 = 4;
+
 pub const HOLE_START: u32 = 0x400;
 pub const HOLE_SPACE: u32 = 0x10;
 pub const PPPOE_SOFTC_SC_AC_COOKIE: u64 = 0x40;
