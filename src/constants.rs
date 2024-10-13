@@ -24,7 +24,12 @@ pub const LCP_CONF_REQ: u8 = 1;
 pub const LCP_CONF_ACK: u8 = 2;
 pub const HOLE_START: u32 = 0x400;
 pub const HOLE_SPACE: u32 = 0x10;
-
+pub const PPPOE_SOFTC_SC_AC_COOKIE: u64 = 0x40;
+pub const LO_DUPOK: u32 = 0x00400000;
+pub const LLTABLE_LLTIFP: u64 = 0x110;
+pub const LLE_EXCLUSIVE: u16 = 0x2000;
+pub const ND6_LLINFO_NOSTATE: u16 = 0xfffe;
+pub const CORRUPT_NUM: u8 = 0x1;
 pub const IP_ADDRESS_TYPE: u8 = 3;
 pub const IPCP_CONF_REQ: u8 = 1;
 pub const IPCP_CONF_ACK: u8 = 2;

