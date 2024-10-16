@@ -50,6 +50,9 @@ fn run_exploit(interface_name: String) {
 }
 
 fn main() {
+    println!();
+    println!("[+] YAPPPWN [+]");
     let args: Args = get_args();
+    println!("{}", args);
     run_exploit(args.interface)
 }
