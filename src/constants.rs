@@ -9,6 +9,8 @@ pub const PPPOE_CODE_PADR: u8 = 0x19;
 pub const IPCPV6_RS: u8 = 0x85;
 pub const PPPOE_CODE_PADO: u8 = 0x07;
 pub const PPPOE_CODE_PADS: u8 = 0x65;
+pub const PPPOE_CODE_PADT: u8 = 0xa7;
+
 pub const PPPOE_CODE_LCP_ECHO_REQ: u8 = 0x09;
 pub const PPPOE_SESSION_ID: u16 = 0xffff;
 pub const ETH_HEADER_LEN: usize = 14;
@@ -23,6 +25,7 @@ pub const FAKE_PRIMARY_DNS_SERVER: [u8; 4] = [0, 0, 0, 0];
 pub const LCP_CONF_REQ: u8 = 1;
 pub const LCP_CONF_ACK: u8 = 2;
 pub const LCP_CONF_REJECT: u8 = 4;
+pub const LCP_TERM_REQ: u8 = 5;
 
 pub const HOLE_START: u32 = 0x400;
 pub const HOLE_SPACE: u32 = 0x10;
