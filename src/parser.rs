@@ -30,6 +30,5 @@ impl Display for Args {
 }
 
 pub fn get_args() -> Args {
-    let args = Args::parse();
-    args
+    Args::parse()
 }
