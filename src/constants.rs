@@ -1,7 +1,6 @@
 // Define constants used in the code
 pub const AF_INET6: u8 = 28;
 pub const CALLOUT_RETURNUNLOCKED: u32 = 0x10;
-pub const CORRUPT_NUM: u8 = 0x1;
 pub const ETHERTYPE_IPCP: u16 = 0x8021;
 pub const ETHERTYPE_IPV6: u16 = 0x86dd;
 pub const ETHERTYPE_LCP: u16 = 0xc021;
@@ -24,7 +23,6 @@ pub const LCP_CONF_REQ: u8 = 1;
 pub const LCP_ID: u8 = 0x41;
 pub const LCP_TERM_REQ: u8 = 5;
 pub const LLE_EXCLUSIVE: u16 = 0x2000;
-pub const LLE_LINKED: u16 = 0x0040;
 pub const LLE_STATIC: u16 = 0x0002;
 pub const LLTABLE_LLTFREE: u64 = 0x118;
 pub const LLTABLE_LLTIFP: u64 = 0x110;
@@ -66,14 +64,11 @@ pub const SEL_KPL: u64 = 0;
 
 pub const CR0_PE: u64 = 0x00000001;
 pub const CR0_MP: u64 = 0x00000002;
-pub const CR0_EM: u64 = 0x00000004;
 pub const CR0_TS: u64 = 0x00000008;
 pub const CR0_ET: u64 = 0x00000010;
 pub const CR0_NE: u64 = 0x00000020;
 pub const CR0_WP: u64 = 0x00010000;
 pub const CR0_AM: u64 = 0x00040000;
-pub const CR0_NW: u64 = 0x20000000;
-pub const CR0_CD: u64 = 0x40000000;
 pub const CR0_PG: u64 = 0x80000000;
 
 pub const CR0_ORI: u64 = CR0_PG | CR0_AM | CR0_WP | CR0_NE | CR0_ET | CR0_TS | CR0_MP | CR0_PE;
@@ -82,4 +77,4 @@ pub const VM_PROT_READ: u64 = 0x01;
 pub const VM_PROT_WRITE: u64 = 0x02;
 pub const VM_PROT_EXECUTE: u64 = 0x04;
 
-pub const VM_PROT_ALL: u64 = (VM_PROT_READ | VM_PROT_WRITE | VM_PROT_EXECUTE);
+pub const VM_PROT_ALL: u64 = VM_PROT_READ | VM_PROT_WRITE | VM_PROT_EXECUTE;

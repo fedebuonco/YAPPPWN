@@ -2,7 +2,7 @@ mod constants;
 mod exploit;
 mod parser;
 
-use exploit::{Exploit, LcpEchoHandler};
+use exploit::Exploit;
 use parser::{get_args, Args};
 use pnet::datalink::{self, NetworkInterface};
 
