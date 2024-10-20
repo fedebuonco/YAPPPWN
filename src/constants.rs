@@ -78,3 +78,5 @@ pub const VM_PROT_WRITE: u64 = 0x02;
 pub const VM_PROT_EXECUTE: u64 = 0x04;
 
 pub const VM_PROT_ALL: u64 = VM_PROT_READ | VM_PROT_WRITE | VM_PROT_EXECUTE;
+
+pub const SOURCE_MAC: [u8; 6] = [0x41; 6];

