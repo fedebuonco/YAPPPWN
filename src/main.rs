@@ -59,8 +59,8 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
     expl.ipcp_negotiation(&interface);
     println!("[+] STAGE 4: Arbitrary payload execution");
     expl.frag_and_send(&interface, stage2.unwrap());
-    handler.stop();
     println!("[+] DONE!");
+    handler.stop();
 }
 
 fn main() {
