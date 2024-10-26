@@ -5,3 +5,4 @@ lcov.info
 
 # Ignore all files in test_data/ folder except for .pcap files
 .DS_Store
+scripts
