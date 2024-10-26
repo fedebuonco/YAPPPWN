@@ -52,11 +52,9 @@ pub const RW_INIT_FLAGS: u32 = (4 << LO_CLASSSHIFT) | LO_INITIALIZED | LO_WITNES
 pub const RW_UNLOCKED: u64 = 1;
 pub const SOCKADDR_IN6_SIZE: u8 = 0x1c;
 pub const SOURCE_IPV4: [u8; 4] = [0x29, 0x29, 0x29, 0x29];
-pub const SOURCE_IPV4_STRING: &str = "41.41.41.41";
 
 pub const SPRAY_NUM: u32 = 0x1000;
 pub const TARGET_IPV4: [u8; 4] = [0x2A, 0x2A, 0x2A, 0x2A];
-pub const TARGET_IPV4_STRING: &str = "42.42.42.42";
 
 pub const ZERO: u64 = 0;
 
