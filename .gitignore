@@ -1,1 +1,11 @@
 /target
+/.cargo
+
+.DS_Store
+
+# Scripts
+scripts
+
+# Coverage
+lcov.info
+tarpaulin-report.html
