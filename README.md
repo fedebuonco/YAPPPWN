@@ -5,6 +5,10 @@ A Rust rewrite of the PPPwn exploit - PlayStation 4 PPPoE RCE by TheOfficialFloW
 
 This project was created for fun and to learn Rust, so feel free to contribute!
 
+Should work from 11.00 to 7.0.
+I have tested this on:
+- [X] 11.00 
+
 ## Run Locally
 
 Download the last release and then run it
