@@ -17,7 +17,7 @@ Build the project:
 cargo build -r
 ```
 
-Download the last release and then run it
+and then run it
 
 ```
 sudo ./target/release/yapppwn -h                                                                                                                                                      
