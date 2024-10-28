@@ -2,7 +2,7 @@ mod constants;
 mod exploit;
 mod parser;
 
-use exploit::{build_fake_ifnet, print_current_state, Exploit};
+use exploit::{build_fake_ifnet, get_offset_from_firmware, print_current_state, Exploit, Offsets};
 use parser::{get_args, Args};
 use pnet::datalink::{self};
 
@@ -16,7 +16,7 @@ fn read_stage(file_path: &str) -> io::Result<Vec<u8>> {
     Ok(buffer) // Return the buffer
 }
 
-fn run_exploit(interface_name: String, stage1_path: String, stage2_path: String) {
+fn run_exploit(interface_name: String, offsets: Offsets, stage1_path: String, stage2_path: String) {
     // Find interface
     let interface = datalink::interfaces()
         .into_iter()
@@ -87,5 +87,6 @@ fn main() {
     println!("[+] YAPPPWN [+]");
     let args: Args = get_args();
     println!("{}", args);
-    run_exploit(args.interface, args.stage_1, args.stage_2)
+    let offsets = get_offset_from_firmware(args.fw);
+    run_exploit(args.interface, offsets, args.stage_1, args.stage_2)
 }
