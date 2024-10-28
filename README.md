@@ -30,6 +30,9 @@ Options:
   -V, --version                Print version
 ```
 
+## Known Bugs
+- It is not endian agnostic atm.
+
 ## FAQ
 ### Why?
 I wanted to learn Rust and was curious about the inner workings of the exploit by theFlow.
