@@ -11,6 +11,12 @@ I have tested this on:
 
 ## Run Locally
 
+Build the project:
+
+```
+cargo build -r
+```
+
 Download the last release and then run it
 
 ```
