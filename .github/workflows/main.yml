@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"  # Triggers on tags like v1.0.0, v1.2.3, etc.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        target:
+          - x86_64-unknown-linux-musl
+          - x86_64-apple-darwin
+          - aarch64-apple-darwin
+          - x86_64-pc-windows-msvc
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}  # Add target toolchain for cross-compilation
+          profile: minimal
+          override: true
+
+      - name: Install Cross
+        run: cargo install cross
+
+      - name: Build application for ${{ matrix.target }}
+        run: cross build --release --target ${{ matrix.target }}
+
+      - name: Package application
+        run: |
+          mkdir -p release
+          cp target/${{ matrix.target }}/release/yapppwn release/yapppwn-${{ matrix.target }}
+        shell: bash
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: yapppwn-${{ matrix.target }}
+          path: release/yapppwn-${{ matrix.target }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: yapppwn-*
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+
+      - name: Upload binaries to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: release
+          asset_name: yapppwn-${{ matrix.target }}
+          asset_content_type: application/octet-stream
