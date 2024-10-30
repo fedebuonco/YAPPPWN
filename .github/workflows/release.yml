@@ -1,0 +1,61 @@
+name: Release
+on:
+  push:
+    tags:
+      - "v*.*.*"
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            extension: ""
+            archive: tar.gz
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            extension: ""
+            archive: tar.gz
+          - os: macos-14
+            target: aarch64-apple-darwin
+            extension: ""
+            archive: tar.gz
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - name: Build for Linux/macOS
+        if: "!endsWith(matrix.target, 'windows-msvc')"
+        run: |
+          cargo build --release --target ${{ matrix.target }}
+          mkdir -p release/yapppwn-${{ matrix.target }}
+          cp target/${{ matrix.target }}/release/yapppwn${{ matrix.extension }} release/yapppwn-${{ matrix.target }}/yapppwn
+          chmod +x release/yapppwn-${{ matrix.target }}/yapppwn
+          cd release
+          tar -czf yapppwn-${{ matrix.target }}.${{ matrix.archive }} yapppwn-${{ matrix.target }}/yapppwn
+          
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: yapppwn-${{ matrix.target }}.${{ matrix.archive }}
+          path: release/yapppwn-${{ matrix.target }}.${{ matrix.archive }}
+  create_release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/**/*
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
