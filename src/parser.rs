@@ -16,6 +16,9 @@ pub struct Args {
     /// Stage 2 Payload Path
     #[arg(long)]
     pub stage_2: String,
+    /// Automatic retries for memory corruption stage
+    #[arg(short, default_value = "3")]
+    pub retries: usize,
 }
 
 impl Display for Args {
@@ -25,6 +28,11 @@ impl Display for Args {
         writeln!(f, "[+] Selected firmare = {}", self.fw)?;
         writeln!(f, "[+] Selected stage 1 payload = {}", self.stage_1)?;
         writeln!(f, "[+] Selected stage 2 payload = {}", self.stage_2)?;
+        writeln!(
+            f,
+            "[+] Automatic retries for memory corruption = {}",
+            self.retries
+        )?;
         Ok(())
     }
 }

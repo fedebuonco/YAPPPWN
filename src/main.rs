@@ -21,6 +21,7 @@ fn run_exploit(
     offsets: &Offsets,
     stage1_path: String,
     stage2_path: String,
+    mem_corruption_retries: usize,
 ) {
     // Find interface
     let interface = datalink::interfaces()
@@ -61,7 +62,8 @@ fn run_exploit(
 
     println!("\n[+] STAGE 1: Memory corruption");
     print_current_state(&expl.exploit_state);
-    expl.memory_corruption(&interface);
+
+    expl.attempt_memory_corruption(&interface, mem_corruption_retries);
 
     print_current_state(&expl.exploit_state);
 
@@ -93,5 +95,12 @@ fn main() {
     let args: Args = get_args();
     println!("{}", args);
     let offsets = get_offset_from_firmware(args.fw);
-    run_exploit(args.interface, &offsets, args.stage_1, args.stage_2)
+    let mem_corruption_retries = args.retries;
+    run_exploit(
+        args.interface,
+        &offsets,
+        args.stage_1,
+        args.stage_2,
+        mem_corruption_retries,
+    )
 }
