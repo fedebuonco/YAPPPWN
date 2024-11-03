@@ -25,6 +25,7 @@ jobs:
             target: x86_64-pc-windows-gnu
             extension: .exe
             archive: tar.gz
+
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code

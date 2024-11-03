@@ -9,18 +9,16 @@ Should work from 11.00 to 7.0.
 I have tested this on:
 - [X] 11.00 
 
-## Run Locally
-
-Build the project:
-
-```
-cargo build -r
-```
-
-and then run it
+## Run
+Donwload latest release and then run it:
 
 ```
-sudo ./target/release/yapppwn -h                                                                                                                                                      
+sudo yapppwn --interface <INTERFACE> --fw <FW> --stage-1 <STAGE_1> --stage-2 <STAGE_2>
+```
+
+The help message:
+```
+sudo yapppwn -h
 
 [+] YAPPPWN [+]
 YAPPPWN, Yet Another PPPwn (in Rust)
@@ -34,6 +32,15 @@ Options:
       --stage-2 <STAGE_2>      Stage 2 Payload Path
   -h, --help                   Print help
   -V, --version                Print version
+```
+
+
+
+## Build from source
+Build the project:
+
+```
+cargo build
 ```
 
 ## Known Bugs
