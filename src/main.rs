@@ -2,7 +2,10 @@ mod constants;
 mod exploit;
 mod parser;
 
-use exploit::{build_fake_ifnet, get_offset_from_firmware, print_current_state, Exploit, Offsets};
+use exploit::{
+    build_fake_ifnet, get_offset_from_firmware, list_interfaces, print_current_state, Exploit,
+    Offsets,
+};
 use parser::{get_args, Args};
 use pnet::datalink::{self};
 
@@ -21,6 +24,7 @@ fn run_exploit(
     offsets: &Offsets,
     stage1_path: String,
     stage2_path: String,
+    mem_corruption_retries: usize,
 ) {
     // Find interface
     let interface = datalink::interfaces()
@@ -61,7 +65,8 @@ fn run_exploit(
 
     println!("\n[+] STAGE 1: Memory corruption");
     print_current_state(&expl.exploit_state);
-    expl.memory_corruption(&interface);
+
+    expl.attempt_memory_corruption(&interface, mem_corruption_retries);
 
     print_current_state(&expl.exploit_state);
 
@@ -89,9 +94,31 @@ fn run_exploit(
 
 fn main() {
     println!();
-    println!("[+] YAPPPWN [+]");
     let args: Args = get_args();
+    // Just print list of interfaces and exit
+    if args.list_interfaces {
+        list_interfaces();
+        std::process::exit(0)
+    }
+
+    println!("[+] YAPPPWN [+]");
     println!("{}", args);
-    let offsets = get_offset_from_firmware(args.fw);
-    run_exploit(args.interface, &offsets, args.stage_1, args.stage_2)
+
+    // Check if minimum reqs are there
+    if args.interface.is_none()
+        || args.fw.is_none()
+        || args.stage_1.is_none()
+        || args.stage_2.is_none()
+    {
+        eprintln!("Error: --interface, --fw, --stage_1, and --stage_2 must be provided.");
+        std::process::exit(1);
+    }
+
+    let interface = args.interface.unwrap();
+    let fw = args.fw.unwrap();
+    let stage_1 = args.stage_1.unwrap();
+    let stage_2 = args.stage_2.unwrap();
+    let offsets = get_offset_from_firmware(fw);
+
+    run_exploit(interface, &offsets, stage_1, stage_2, args.retries.unwrap())
 }
