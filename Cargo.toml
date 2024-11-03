@@ -2,6 +2,7 @@
 name = "yapppwn"
 version = "0.1.1"
 edition = "2021"
+build = "build.rs"
 
 [dependencies]
 clap = { version = "4.5.9", features = ["derive"] }
